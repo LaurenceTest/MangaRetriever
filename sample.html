@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sample</title>
+    <script>
+        let response
+        let i = 0
+        async function getImage(){
+            const container = document.getElementById("main")
+            response = await fetch(`http://localhost:3001?index=${i++}`,{
+                mode:"cors"
+            })
+            console.log(response.status,response.headers["content-type"])
+            const image = document.createElement("img")
+            image.style.height = "50%"
+            image.style.width = "50%"
+            image.setAttribute("src", URL.createObjectURL(await response.blob()))
+            container.append(image)
+            return response.status
+        }
+        document.addEventListener("DOMContentLoaded",async function(){
+            do {
+            } while (await getImage() === 200)
+        })
+    </script>
+</head>
+<body>
+    <div id="main">
+        <!-- <img id="sample-img" src="http://localhost:3001?index=0"> -->
+         <!-- <img src="https://mn2.mkklcdnv6temp.com/img/tab_30/04/91/43/xr1000500/chapter_10/1-1730021719-o.jpg" alt="hi"> -->
+    </div>
+</body>
+</html>
